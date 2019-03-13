@@ -3,6 +3,20 @@ html
 	head 
 		title Landing Page
 	body
-		form
-			input.form-control(name=,type
-		
+		h1 #{title}
+		//-	h2 #{database}
+			ul
+				each i in database
+					li= i.userID + ': ' + i.password
+		//
+		form(method='POST', action='/')
+			label Enter Username:
+				input.form-control(name='userid', type='text')
+				br
+				label Enter Password:
+				input.form-control(name='password', type='password')
+				br
+				input.btn.btn-primary(type='submit', value='Submit')
+		h2 Not a user? 
+			a(href='users/register') Click here
+			a  to register.
