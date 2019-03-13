@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+// Link mongodb database here
 mongoose.connect('mongodb://localhost/nodekb');
 let db = mongoose.connection;
 
@@ -51,6 +52,7 @@ app.get('/', function(req,res){
 	});
 });
 
+// User log-in facility, notifies the user if invalid username or password
 app.post('/', function(req,res) {
 	User.find({ userID:req.body.userid }, function(err,output){
 		if(err) { 
@@ -96,6 +98,8 @@ app.post('/users/register', function(req,res){
 	
 });
 
+
+// Listen for port 3000
 app.listen(3000, function() {
 	console.log('Server started on 3000 port this is callback');
 });
