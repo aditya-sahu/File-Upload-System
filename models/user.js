@@ -1,4 +1,4 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 //Scheme of a user
 let userSchema = mongoose.Schema({

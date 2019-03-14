@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
 
 // Link mongodb database here
 mongoose.connect('mongodb://localhost/nodekb');
@@ -62,7 +63,7 @@ app.post('/', function(req,res) {
 		else {
 			if(output[0].password==req.body.password) 
 			{
-				res.send('OK');
+				res.redirect('/users/fileIndex');
 			}
 			else {
 				console.log(output[0].password + ' and ' + req.body.password);
@@ -86,17 +87,40 @@ app.post('/users/register', function(req,res){
 	user.password = req.body.password;
 	user.email = req.body.email;
 	
-	user.save(function(err){
-		if(err) {
-			console.log(err);
-			return;
-		}
-		else {
-			res.redirect('/');
-		}
+	bcrypt.genSalt(10, function(err,salt){
+		bcrypt.hash(user.password, salt, function(err, hash){
+			if(err) console.log(err);
+			else {
+				user.password = hash;
+				user.save(function(err){
+				if(err) {
+					console.log(err);
+					return;
+				}
+				else {
+					res.redirect('/');
+				}
+			});
+			}
+		});
 	});
-	
 });
+
+//File Uploading System
+app.get('/users/fileIndex', ensureAuthenticated, function(req,res){
+	res.render('fileIndex',{
+		
+	});
+});
+
+// Access Control
+function ensureAuthenticated(req,res,next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	req.flash('danger','Please Login');
+	res.redirect('/');
+}
 
 
 // Listen for port 3000
