@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const passportjs = require('passportjs');
 
 // Link mongodb database here
 mongoose.connect('mongodb://localhost/nodekb');
